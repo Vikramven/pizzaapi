@@ -7,7 +7,7 @@ public class Pizza
     private boolean vegeterian;
     private double price;
     private String[] toppings;
-    private String note;
+    private String customerWish;
 
     public Pizza()
     {
@@ -21,22 +21,27 @@ public class Pizza
         this.vegeterian = vegeterian;
         this.price = price;
         this.toppings = toppings;
-        note = null;
+        customerWish = null;
     }
 
-    public Pizza(long id, String name, boolean vegeterian, double price, String[] toppings, String note)
+    public Pizza(long id, String name, boolean vegeterian, double price, String[] toppings, String wish)
     {
         this.id = id;
         this.name = name;
         this.vegeterian = vegeterian;
         this.price = price;
         this.toppings = toppings;
-        this.note = note;
+        this.customerWish = wish;
     }
 
     @Override
     public String toString() {
-        return "Pizza [id=" + id + ", name=" + name + ", vegeterian=" + vegeterian + ", price=" + price + "]";
+        return "Pizza [id=" + id +
+                ", name=" + name +
+                ", vegeterian=" +
+                vegeterian +
+                ", price=" + price +
+                "]";
     }
 
     public long getId() {
@@ -79,12 +84,12 @@ public class Pizza
         this.toppings = toppings;
     }
 
-    public String getNote() {
-        return note;
+    public String getCustomerWish() {
+        return customerWish;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setCustomerWish(String wish) {
+        this.customerWish = wish;
     }
 }
 
