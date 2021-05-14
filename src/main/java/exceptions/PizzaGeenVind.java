@@ -3,13 +3,14 @@ package exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Order Not Found")
-public class OrderNotFound extends Exception
+@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Pizza Not Found")
+public class PizzaGeenVind extends Exception
 {
     private static final long serialVersionUID = 1L;
 
-    public OrderNotFound(String errorMessage)
+    public PizzaGeenVind(String errorMessage)
     {
         super(errorMessage);
     }
 }
+

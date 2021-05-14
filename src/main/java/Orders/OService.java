@@ -1,17 +1,14 @@
 package Orders;
 
 
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
+import exceptions.OrderGeenCancelled;
+import exceptions.OrderGeenPlace;
+import exceptions.OrderNotFound;
 import org.springframework.stereotype.Service;
 
-import group69.pizzaAPI.DataBase;
-import group69.pizzaAPI.exceptions.OrderNotCancelledException;
-import group69.pizzaAPI.exceptions.OrderNotFoundException;
-import group69.pizzaAPI.exceptions.OrderNotPlacedException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OService
@@ -20,28 +17,28 @@ public class OService
 
     public List<Order> getOrders()
     {
-        return DataBase.getDataBase().getOrders();
+        return Database.getDataBase().getOrders();
     }
 
-    public List<Order> getOrderByCustomerId(long id) throws OrderNotFoundException
+    public List<Order> getOrderByCustomerId(long id) throws OrderNotFound
     {
-        return DataBase.getDataBase().getOrderByCustomerId(id);
+        return Database.getDataBase().getOrderByCustomerId(id);
     }
 
-    public Order postOrder(ORequest orderRequest) throws OrderNotPlacedException
+    public Order postOrder(ORequest orderRequest) throws OrderGeenPlace
     {
-        return DataBase.getDataBase().addOrder(orderRequest);
+        return Database.getDataBase().addOrder(orderRequest);
     }
 
-    public Order cancelOrder(long orderId) throws OrderNotCancelledException
+    public Order cancelOrder(long orderId) throws OrderGeenCancelled
     {
-        return DataBase.getDataBase().cancelOrder(orderId);
+        return Database.getDataBase().cancelOrder(orderId);
     }
 
-    public List<Object> getDeliveryTime(long orderId) throws OrderNotFoundException
+    public List<Object> getDeliveryTime(long orderId) throws OrderNotFound
     {
-        Order order = DataBase.getDataBase().getOrderByOrderId(orderId);
-        DeliveryTime delivery_time = new DeliveryTime(order.getOrderedAt().plusMinutes(25));
+        Order order = Database.getDataBase().getOrderByOrderId(orderId);
+        ETA delivery_time = new ETA(order.getOrderedAt().plusMinutes(25));
         return List.of(order, delivery_time);
     }
 }

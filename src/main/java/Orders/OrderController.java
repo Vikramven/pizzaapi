@@ -2,6 +2,9 @@ package Orders;
 
 import java.util.List;
 
+import exceptions.OrderGeenCancelled;
+import exceptions.OrderGeenPlace;
+import exceptions.OrderNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,13 +36,8 @@ public class OrderController
     }
 
     @GetMapping(value = "/{customer_id}")
-    public List<Order> getOrderById(@PathVariable long customer_id)
-    {
-        try {
-            return orderService.getOrderByCustomerId(customer_id);
-        } catch(OrderNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order_Not_Found", e);
-        }
+    public List<Order> getOrderById(@PathVariable long customer_id) throws OrderNotFound {
+        return orderService.getOrderByCustomerId(customer_id);
     }
 
     @GetMapping(value = "/pr")
@@ -49,36 +47,17 @@ public class OrderController
     }
 
     @GetMapping(value = "/deliverytime/{order_id}")
-    public List<Object> getDeliveryTime(@PathVariable long order_id)
-    {
-        try {
-            return orderService.getDeliveryTime(order_id);
-        } catch(OrderNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order_Not_Found", e);
-        }
+    public List<Object> getDeliveryTime(@PathVariable long order_id) throws OrderNotFound {
+        return orderService.getDeliveryTime(order_id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Order makeOrder(@RequestBody ORequest orderRequest)
-    {
-        try {
-            return orderService.postOrder(orderRequest);
-        } catch (OrderNotPlacedException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Order_Not_Posted", e);
-        }
+    public Order makeOrder(@RequestBody ORequest orderRequest) throws OrderGeenPlace {
+        return orderService.postOrder(orderRequest);
     }
 
     @RequestMapping(value = "cancel/{order_id}")
-    public Order cancelOrder(@PathVariable long order_id)
-    {
-        try {
-            return orderService.cancelOrder(order_id);
-        } catch (OrderNotCancelledException e) {
-            if(e.getMessage().equalsIgnoreCase("Unable to cancel an already cancelled order"))
-                throw new ResponseStatusException(HttpStatus.PRECONDITION_FAILED, e.getMessage(), e);
-            if(e.getMessage().equalsIgnoreCase("Unable to cancel an already delivered order"))
-                throw new ResponseStatusException(HttpStatus.PRECONDITION_FAILED, e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+    public Order cancelOrder(@PathVariable long order_id) throws OrderGeenCancelled {
+        return orderService.cancelOrder(order_id);
     }
 }

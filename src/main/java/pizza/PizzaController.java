@@ -2,6 +2,7 @@ package pizza;
 
 import java.util.List;
 
+import exceptions.PizzaGeenVind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,11 +34,7 @@ public class PizzaController
     @GetMapping(value = "/{id}")
     public List<Pizza> getPizza(@PathVariable long id)
     {
-        try {
-            return pizzaService.getPizzaById(id);
-        } catch(PizzaNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza_ID_Not_Found", e);
-        }
+        return pizzaService.getPizzaById(id);
     }
 }
 

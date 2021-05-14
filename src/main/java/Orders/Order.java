@@ -4,7 +4,7 @@ package Orders;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import ;
+import pizza.Pizza;
 
 public class Order
 {
@@ -73,7 +73,7 @@ public class Order
         return status;
     }
 
-    public void setStatus(String cancelled) {
+    public void setStatus(State cancelled) {
         this.status = cancelled;
     }
 
