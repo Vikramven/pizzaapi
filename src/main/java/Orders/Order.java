@@ -1,5 +1,5 @@
 package Orders;
-
+import Database.Database;
 
 
 import java.time.LocalDateTime;
@@ -10,21 +10,21 @@ public class Order
 {
     private long id;
     private long customerId;
-    private String status;
+    private State status;
     private LocalDateTime orderedAt;
     private boolean takeaway;
     private String paymentType;
     private Address deliveryAddress;
     private List<Pizza> pizzas;
 
-    public Order()
+    public Order(long id, long customer_id, String in_progress, LocalDateTime now, boolean takeaway, String payment_type, Address delivery_address, List<Pizza> pizzas)
     {
 
     }
 
     public Order(long id,
                  long customerId,
-                 String status,
+                 State status,
                  LocalDateTime orderedAt,
                  boolean takeaway,
                  String paymentType,
@@ -69,7 +69,7 @@ public class Order
         this.customerId = customerId;
     }
 
-    public String getStatus() {
+    public State getStatus() {
         return status;
     }
 

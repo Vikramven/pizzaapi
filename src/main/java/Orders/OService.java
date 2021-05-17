@@ -1,7 +1,7 @@
 package Orders;
+import Database.Database;
 
-
-import exceptions.OrderGeenCancelled;
+import exceptions.OrderBeenCancelled;
 import exceptions.OrderGeenPlace;
 import exceptions.OrderNotFound;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class OService
         return Database.getDataBase().addOrder(orderRequest);
     }
 
-    public Order cancelOrder(long orderId) throws OrderGeenCancelled
+    public Order cancelOrder(long orderId) throws OrderBeenCancelled
     {
         return Database.getDataBase().cancelOrder(orderId);
     }

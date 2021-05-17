@@ -1,17 +1,20 @@
+package Database;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+;
 import Orders.Address;
 import Orders.ORequest;
 import Orders.Order;
 import Orders.State;
-import exceptions.OrderGeenCancelled;
+import exceptions.OrderBeenCancelled;
 import exceptions.OrderGeenPlace;
 import exceptions.OrderNotFound;
 import exceptions.PizzaGeenVind;
 import pizza.PRequest;
 import pizza.Pizza;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Database
 {
@@ -75,36 +78,36 @@ public class Database
     public Order addOrder(ORequest orderRequest) throws OrderGeenPlace
     {
         try {
-            List<Pizza> pizzas = convertToPizzas(orderRequest.getPizzaRequests());
+            List<Pizza> pizzas = convertToPizzas(orderRequest.getPizzas());
         } catch (PizzaGeenVind e) {
             throw new OrderGeenPlace("Unable to locate pizza");
         }
 
         Order order = new Order(highestOrderId++,
-                orderRequest.getCustomerId(),
-                State.IN_PROGRESS,
+                orderRequest.getCustomer_id(),
+                "IN_PROGRESS",
                 LocalDateTime.now(),
                 orderRequest.isTakeaway(),
-                orderRequest.getPaymentType(),
-                orderRequest.getDeliveryAddress(),
+                orderRequest.getPayment_type(),
+                orderRequest.getDelivery_address(),
                 pizzas);
         orders.add(order);
         return order;
     }
 
-    public Order cancelOrder(long orderId) throws OrderGeenCancelled, OrderGeenCancelled {
+    public Order cancelOrder(long orderId) throws OrderBeenCancelled
+    {
         Order order;
         try {
             order = getOrderByOrderId(orderId);
         } catch (OrderNotFound e) {
-            throw new OrderGeenCancelled("Order not found");
+            throw new OrderBeenCancelled("Order not found");
         }
-        if(ableToCancel(order))
-        {
-            if(order.getStatus().equals(State.CANCELLED))
-                throw new OrderGeenCancelled("Unable to cancel an already cancelled order");
-            if(order.getStatus().equals(State.DELIVERED))
-                throw new OrderGeenCancelled("Unable to cancel an already delivered order");
+        if(ableToCancel(order)){
+            if(order.getStatus()== State.CANCELLED)
+                throw new OrderBeenCancelled("Unable to cancel an already cancelled order");
+            if(order.getStatus()==State.DELIVERED)
+                throw new OrderBeenCancelled("Unable to cancel an already delivered order");
         }
         order.setStatus(State.CANCELLED);
         return order;
@@ -160,7 +163,14 @@ public class Database
                 "Maastricht",
                 "6213GA",
                 "Nederland");
+
+        orders.add(new Order(0,
+                1233456789,
+                "ACCEPTED",
+                LocalDateTime.now(),
+                true,
+                "buttons",
+                address,
+                List.of(pizzas.get(0), pizzas.get(0))));
     }
-
 }
-

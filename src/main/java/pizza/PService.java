@@ -1,8 +1,9 @@
 package pizza;
 import java.util.List;
-
+import Database.Database;
+import exceptions.PizzaGeenVind;
 import org.springframework.stereotype.Service;
-import
+
 
 
 @Service
@@ -14,9 +15,9 @@ public class PService
         return Database.getDataBase().getPizzas();
     }
 
-    public List<Pizza> getPizzaById(long id) throws PizzaNotFoundException
+    public List<Pizza> getPizzaById(long id) throws PizzaGeenVind
     {
-        return DataBase.getDataBase().getPizzaById(id);
+        return Database.getDataBase().getPizzaById(id);
     }
 }
 

@@ -2,18 +2,16 @@ package Orders;
 
 import java.util.List;
 
-import exceptions.OrderGeenCancelled;
+import exceptions.OrderBeenCancelled;
 import exceptions.OrderGeenPlace;
 import exceptions.OrderNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 import pizza.PRequest;
 
 
@@ -57,7 +55,7 @@ public class OrderController
     }
 
     @RequestMapping(value = "cancel/{order_id}")
-    public Order cancelOrder(@PathVariable long order_id) throws OrderGeenCancelled {
+    public Order cancelOrder(@PathVariable long order_id) throws OrderBeenCancelled {
         return orderService.cancelOrder(order_id);
     }
 }
